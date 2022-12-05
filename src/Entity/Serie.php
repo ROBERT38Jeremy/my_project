@@ -16,8 +16,13 @@ class Serie
     private string $nom;
 
     #[ORM\Column]
+    #[Assert\MoreThan(0)]
     private int $platefrome;
 
     #[ORM\Column(length: 255)]
+    #[Assert\MoreThan(0)]
     private string $saison;
+
+    #[ORM\OneToMany(targetEntity: Episode::class, mappedBy: 'serie_id')]
+    private $episode_id;
 }
