@@ -17,7 +17,7 @@ class Serie
     #[ORM\Column(length: 255)]
     #[Assert\Length(
         min: 2,
-        max: 50,
+        max: 150,
         minMessage: 'Ton nom est trop court',
         maxMessage: 'Ton nom est trop long',
     )]

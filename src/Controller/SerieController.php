@@ -68,4 +68,44 @@ class SerieController extends AbstractController
         }
         return new Response($return);
     }
+
+    #[Route('/CSV/serie')]
+    public function createSerieFromCsv(ManagerRegistry $doctrine, ValidatorInterface $validator): Response
+    {
+        $csv_stream = fopen('C:\wamp64\www\projet_cours_cesi\my_project\public\series.csv', 'r');
+        $response = '';
+        $array_series = [];
+        $datas = [];
+        while($ligne = fgetcsv($csv_stream)) {
+            $datas[] = [
+                'name' => $ligne[0],
+                'platefrome_name' => $ligne[1],
+                'platefrome_url' => $ligne[2],
+                'nb_saison' => $ligne[3]
+            ];
+        }
+        fclose($csv_stream);
+        $array_series = array_unique($datas, SORT_REGULAR);
+
+        foreach($array_series as $serie_name => $data) {
+            $response .= $serie_name.' => '.implode(', ', $data).'<br>';
+        }
+        return new Response($response);
+
+
+
+        // $entityManager = $doctrine->getManager();
+        // $serie = new Serie();
+        // $serie->setNom($nom);
+        // $platefrom = $doctrine->getRepository(Platefrome::class)->find($platefrome);
+        // $serie->setPlatefrome($platefrom);
+        // $errors = $validator->validate($serie);
+        // if (count($errors) > 0) {
+        //     $errorsString = (string) $errors;
+        //     return new Response($errorsString);
+        // }
+        // $entityManager->persist($serie);
+        // $entityManager->flush();
+        // return new Response('Saved new serie with id '.$serie->getId());
+    }
 }
