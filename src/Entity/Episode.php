@@ -35,7 +35,7 @@ class Episode
     private ?int $note = null;
 
     #[ORM\ManyToOne(targetEntity: Saison::class, inversedBy: 'episode')]
-    private ?int $saison = null;
+    private $saison = null;
 
     public function getId(): ?int
     {
@@ -76,5 +76,25 @@ class Episode
         $this->note = $note;
 
         return $this;
+    }
+
+    public function getSaison(): ?Saison
+    {
+        return $this->saison;
+    }
+
+    public function setSaison(?Saison $saison): self
+    {
+        $this->saison = $saison;
+
+        return $this;
+    }
+
+    function __construct(string $nom, int $num, int $note, Saison $saison)
+    {
+        $this->setNom($nom);
+        $this->setNumero($num);
+        $this->setNote($note);
+        $this->setSaison($saison);
     }
 }

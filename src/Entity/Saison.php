@@ -12,17 +12,17 @@ class Saison
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?int $id = null;
+    private ?int $id;
 
     #[ORM\Column]
     #[Assert\Positive]
-    private ?int $numero = null;
+    private ?int $numero;
 
     #[ORM\ManyToOne(targetEntity: Serie::class, inversedBy: 'saison')]
-    private $serie = null;
+    private $serie;
 
     #[ORM\OneToMany(targetEntity: Episode::class, mappedBy: 'saison')]
-    private $episode = null;
+    private $episode;
 
     public function getId(): ?int
     {
@@ -37,6 +37,18 @@ class Saison
     public function setNumero(int $numero): self
     {
         $this->numero = $numero;
+
+        return $this;
+    }
+
+    public function getSerie(): ?Serie
+    {
+        return $this->serie;
+    }
+
+    public function setSerie(?Serie $serie): self
+    {
+        $this->serie = $serie;
 
         return $this;
     }

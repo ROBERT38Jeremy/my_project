@@ -21,7 +21,7 @@ class SerieController extends AbstractController
     }
 
     #[Route('/newSerie/{platefrome}/{nom}')]
-    public function createPlatefrome(ManagerRegistry $doctrine, int $platefrome, string $nom, ValidatorInterface $validator): Response
+    public function createSerie(ManagerRegistry $doctrine, int $platefrome, string $nom, ValidatorInterface $validator): Response
     {
         $entityManager = $doctrine->getManager();
         $serie = new Serie();
@@ -36,5 +36,36 @@ class SerieController extends AbstractController
         $entityManager->persist($serie);
         $entityManager->flush();
         return new Response('Saved new serie with id '.$serie->getId());
+    }
+
+    #[Route('/Procedure/newSerie/{platefrome}/{nom}')]
+    public function createProcedureSerie(ManagerRegistry $doctrine, int $platefrome, string $nom, ValidatorInterface $validator): Response
+    {
+        $conn = $doctrine->getConnection();
+
+        $sql = "CALL insert_serie(:nom, :plateform)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindValue('nom', $nom);
+        $stmt->bindValue('plateform', $platefrome);
+        $resultSet = $stmt->executeQuery();
+
+        return $this->redirect('/getSerie');
+    }
+
+    #[Route('/getSerie')]
+    public function show(ManagerRegistry $doctrine): Response
+    {
+        $series = $doctrine->getRepository(Serie::class)->findAll();
+        if (!$series) {
+            throw $this->createNotFoundException(
+                'No platefrome found'
+            );
+        }
+
+        $return = '';
+        foreach ($series as $serie) {
+            $return .= 'Check out this great platefrome: '.$serie->getNom().'<br>';
+        }
+        return new Response($return);
     }
 }
