@@ -92,11 +92,10 @@ class SerieController extends AbstractController
         }
         return new Response($response);
 
-
-
         // $entityManager = $doctrine->getManager();
-        // $serie = new Serie();
-        // $serie->setNom($nom);
+
+        // $platefrome = new Platefrome();
+        // $serie = new Serie($nom, $platefrome);
         // $platefrom = $doctrine->getRepository(Platefrome::class)->find($platefrome);
         // $serie->setPlatefrome($platefrom);
         // $errors = $validator->validate($serie);

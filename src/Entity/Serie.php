@@ -57,4 +57,10 @@ class Serie
 
         return $this;
     }
+
+    public function __construct(string $nom, Platefrome $platefrome)
+    {
+        $this->setNom($nom);
+        $this->setPlatefrome($platefrome);
+    }
 }
