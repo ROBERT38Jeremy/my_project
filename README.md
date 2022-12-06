@@ -21,8 +21,7 @@ Le fichier ```sql.sql``` contient le script sql pour la création des triggers e
 
 ```mermaid
 graph TD;
-A-->B;
-A-->C;
-B-->D;
-C-->D;
+Platefrome--1..*-->Serie ;
+Serie--1-1..*-->Saison;
+Saison--1-1..*-->Episode;
 ```
