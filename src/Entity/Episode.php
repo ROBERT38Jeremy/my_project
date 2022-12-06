@@ -14,12 +14,24 @@ class Episode
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 2,
+        max: 100,
+        minMessage: 'Ton nom est trop court',
+        maxMessage: 'Ton nom est trop long',
+    )]
     private ?string $nom = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\PositiveOrZero]
     private ?int $numero = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Range(
+        min: 0,
+        max: 5,
+        notInRangeMessage: 'la note doit être comprise entre {{ min }} et {{ max }}',
+    )]
     private ?int $note = null;
 
     #[ORM\ManyToOne(targetEntity: Saison::class, inversedBy: 'episode')]

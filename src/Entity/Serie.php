@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SerieRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SerieRepository::class)]
 class Serie
@@ -14,13 +15,19 @@ class Serie
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'Ton nom est trop court',
+        maxMessage: 'Ton nom est trop long',
+    )]
     private ?string $nom = null;
 
     #[ORM\OneToMany(targetEntity: Episode::class, mappedBy: 'serie')]
-    private ?int $episode = null;
+    private $episode = null;
 
     #[ORM\ManyToOne(targetEntity: Platefrome::class, inversedBy: 'serie')]
-    private ?int $platefrome;
+    private $platefrome;
 
     public function getId(): ?int
     {
@@ -44,21 +51,9 @@ class Serie
         return $this->platefrome;
     }
 
-    public function setPlatefrome(?int $platefrome): self
+    public function setPlatefrome(?Platefrome $platefrome): self
     {
         $this->platefrome = $platefrome;
-
-        return $this;
-    }
-
-    public function getSaison(): ?int
-    {
-        return $this->saison;
-    }
-
-    public function setSaison(?int $saison): self
-    {
-        $this->saison = $saison;
 
         return $this;
     }

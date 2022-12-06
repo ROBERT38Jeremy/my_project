@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PlatefromeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PlatefromeRepository::class)]
 class Platefrome
@@ -14,10 +15,20 @@ class Platefrome
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $nom;
+    #[Assert\Length(
+        min: 2,
+        max: 50,
+        minMessage: 'Ton nom est trop court',
+        maxMessage: 'Ton nom est trop long',
+    )]
+    protected ?string $nom;
 
-    // #[ORM\OneToMany(targetEntity: Serie::class, mappedBy: 'platefrome')]
-    // private ?int $serie;
+    #[ORM\Column(length: 255)]
+    #[Assert\Url(message: 'The url {{ value }} is not a valid url',)]
+    protected ?string $url;
+
+    #[ORM\OneToMany(targetEntity: Serie::class, mappedBy: 'platefrome')]
+    private $serie;
 
     public function getId(): ?int
     {
@@ -36,8 +47,15 @@ class Platefrome
         return $this;
     }
 
-    public function __construct(string $name)
+    public function getUrl(): ?string
     {
-        $this->nom = $name;
+        return $this->url;
+    }
+
+    public function setUrl(string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
     }
 }

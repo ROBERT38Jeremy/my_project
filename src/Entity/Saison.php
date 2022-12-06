@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SaisonRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SaisonRepository::class)]
 class Saison
@@ -14,13 +15,14 @@ class Saison
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
     private ?int $numero = null;
 
     #[ORM\ManyToOne(targetEntity: Serie::class, inversedBy: 'saison')]
-    private ?int $serie = null;
+    private $serie = null;
 
     #[ORM\OneToMany(targetEntity: Episode::class, mappedBy: 'saison')]
-    private ?int $episode = null;
+    private $episode = null;
 
     public function getId(): ?int
     {
