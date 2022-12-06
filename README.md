@@ -18,3 +18,11 @@ Le fichier ```sql.sql``` contient le script sql pour la création des triggers e
 | #plafrome_id  | numéro            |   url | #serie_id | 
 |   | note         |     | |
 |   | #saison_id         |     | |
+
+```mermaid
+graph TD;
+A-->B;
+A-->C;
+B-->D;
+C-->D;
+```
